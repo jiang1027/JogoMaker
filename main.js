@@ -1,4 +1,5 @@
 import { $, $$, decode } from '@sciter';
+import * as env from '@env';
 import { fs } from '@sys';
 import {
   Resource,
@@ -22,9 +23,10 @@ import { Position, Size, Velocity, BoundingBox } from './types/math.js';
 main('fruit-clicker');
 
 async function main(game) {
-  if (!Window.this.scapp.argv.includes('--debug')) {
-    Window.this.modal({ url: 'about.html' });
-  }
+  const argv = env.arguments();
+	if (argv.includes('--debug')) {
+		Window.this.modal({ url: 'about.html' });
+	}
 
   const { default: RESOURCES } = await import(
     `./games/${game}/resources/module.js`
@@ -53,7 +55,7 @@ function adjustWindow(caption = '', size = new Size()) {
 }
 
 async function hydrateResources(res) {
-  //console.log('Hydrating resources ...');
+  console.log('Hydrating resources ...');
   const date = Date.now();
   await Promise.all([
     ...res.sounds.map((snd) => snd.hydrate()),
@@ -64,7 +66,7 @@ async function hydrateResources(res) {
     ...res.sprites.map((spr) => spr.hydrate()),
     ...res.entities.map((ent) => ent.hydrate(res)),
   ]);
-  //console.log(`Hydration complete! (${(Date.now() - date) / 1000} seconds)`);
+  console.log(`Hydration complete! (${(Date.now() - date) / 1000} seconds)`);
 }
 
 function handleTrigger(name, res) {

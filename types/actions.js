@@ -169,9 +169,9 @@ class PlaySound extends Action {
       ({ name }) => name === this.sound
     );
 
-    const audio = await Audio.load(
-      `games/${misc.res.globals.GAME}/resources/sounds/${filename}`
-    );
+    let path = URL.toPath(__DIR__) + `../games/${misc.res.globals.GAME}/resources/sounds/${filename}`;
+    const audio = await Audio.load(path);
+
     audio.name = this.sound;
     await unit.playAudio(audio);
   }

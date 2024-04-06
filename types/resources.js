@@ -15,14 +15,12 @@ export class Resource {
         ({ name }) => name === this.background
       );
     } else if (this instanceof Sound) {
-      this.audio = await Audio.load(
-        `games/${Resource.GAME}/resources/sounds/${this.filename}`
-      );
+      let path = URL.toPath(__DIR__) + `../games/${Resource.GAME}/resources/sounds/${this.filename}`;
+      this.audio = await Audio.load(path);
       this.audio.name = this.name;
     } else if (this instanceof Sprite) {
-      this.image = await Graphics.Image.load(
-        `games/${Resource.GAME}/resources/sprites/${this.filename}`
-      );
+      let path = URL.toPath(__DIR__) + `../games/${Resource.GAME}/resources/sprites/${this.filename}`;
+      this.image = await Graphics.Image.load(path);
     } else if (this instanceof Entity) {
       this.sprite = res.sprites.find(({ name }) => name === this.sprite) || null;
     } else if (this instanceof Unit) {
